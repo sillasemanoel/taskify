@@ -46,13 +46,12 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-left: -30px;
   width: auto;
 }
 
 .my-masonry-grid_column {
-  padding-left: 30px;
   background-clip: padding-box;
+  width: 360px !important;
 }
 
 .my-masonry-grid_column>div {
@@ -62,7 +61,7 @@
   padding: 10px 20px;
   margin: 10px;
   cursor: pointer;
-  width: 300px;
+  width: 300px !important;
 }
 
 /* Estilos para as notas */
@@ -99,6 +98,10 @@
 .trashCanButtons {
   display: flex;
   justify-content: center;
+}
+
+.trashCanButtons button {
+  display: flex;
 }
 
 .restore {

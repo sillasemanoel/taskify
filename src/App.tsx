@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { AiOutlineClose } from 'react-icons/ai'
+import { AiOutlineClose, AiOutlineRollback, AiOutlineDelete } from 'react-icons/ai'
 import Masonry from 'react-masonry-css'
 import './App.css'
 
@@ -171,10 +171,11 @@ export default function NoteApp() {
 
   // Configuração das colunas para o layout Masonry
   const breakpointColumnsObj = {
-    default: 4,
-    1600: 3,
-    1200: 2,
-    800: 1
+    default: 5,
+    1810: 4,
+    1450: 3,
+    1100: 2,
+    730: 1
   }
 
   return (
@@ -237,13 +238,13 @@ export default function NoteApp() {
                     onClick={() => handleRestoreNote(note.id)}
                     className='restore'
                   >
-                    Restaurar
+                    <AiOutlineRollback />
                   </button>
                   <button
                     onClick={() => handleDeletePermanently(note.id)}
                     className='definitelyDelete'
                   >
-                    Excluir
+                    <AiOutlineDelete />
                   </button>
                 </div>
               )}
