@@ -1,3 +1,4 @@
+/* Estilos para a navegação */
 .navbar {
   padding: 10px;
   text-align: center;
@@ -18,6 +19,7 @@
   color: #fff;
 }
 
+/* Botão para adicionar nova nota */
 .toAdd {
   position: absolute;
   bottom: 30px;
@@ -34,21 +36,26 @@
   cursor: pointer;
 }
 
+/* Estilos para o grid das notas */
 .grid {
   display: flex;
   justify-content: center;
 }
 
-.grid ul {
-  list-style: none;
-  padding: 0;
+.my-masonry-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: start;
-  text-align: center;
+  margin-left: -30px;
+  width: auto;
 }
 
-.note {
+.my-masonry-grid_column {
+  padding-left: 30px;
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column>div {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
@@ -58,6 +65,7 @@
   width: 300px;
 }
 
+/* Estilos para as notas */
 .note h3 {
   display: block;
   text-align: start;
@@ -73,7 +81,7 @@
   font-size: 16px;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 10;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
 }
@@ -87,6 +95,12 @@
   cursor: pointer;
 }
 
+/* Estilos para os botões na lixeira */
+.trashCanButtons {
+  display: flex;
+  justify-content: center;
+}
+
 .restore {
   background-color: #4ddf4d;
 }
@@ -95,6 +109,7 @@
   background-color: #ff3f3c;
 }
 
+/* Estilos para os modais */
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
@@ -115,10 +130,8 @@
   width: 400px;
   max-width: 100%;
   position: relative;
-  /* Add this to make the position absolute on close button work properly */
 }
 
-/* Modal header styles */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -126,7 +139,6 @@
   margin-bottom: 20px;
 }
 
-/* Modal close button styles */
 .modal-header button {
   padding: 5px;
   position: absolute;
@@ -159,7 +171,7 @@
   cursor: pointer;
 }
 
-/* Input and textarea styles */
+/* Estilos para os campos de texto */
 input[type="text"],
 textarea {
   width: 100%;
@@ -183,19 +195,12 @@ textarea::-webkit-scrollbar {
   background-color: #f5f5f5;
 }
 
-/* Style the scrollbar thumb */
 textarea::-webkit-scrollbar-thumb {
   background-color: #888;
   border-radius: 5px;
 }
 
-/* Change cursor style on scrollbar thumb hover */
 textarea::-webkit-scrollbar-thumb:hover {
   background-color: #555;
   cursor: pointer;
-}
-
-/* Red button styles */
-.red {
-  background-color: red;
 }

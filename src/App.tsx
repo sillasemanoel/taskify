@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import Masonry from 'react-masonry-css'; // Importar a biblioteca react-masonry-css
 import './App.css';
 
 interface Note {
@@ -168,6 +169,14 @@ const NoteApp = () => {
     return note.status === selectedCategory && note.condition === 'active';
   });
 
+  // Configuração das colunas para o layout Masonry
+  const breakpointColumnsObj = {
+    default: 4, // Número de colunas no layout padrão
+    1600: 3,   // Número de colunas em telas de 1600px ou menos
+    1200: 2,   // Número de colunas em telas de 1200px ou menos
+    800: 1     // Número de colunas em telas de 800px ou menos
+  };
+
   // Renderização do componente
   return (
     <div>
@@ -212,18 +221,23 @@ const NoteApp = () => {
         {selectedCategory === 'bin' && filteredNotes.length === 0 && (
           <p>Nenhuma nota na lixeira</p>
         )}
-
-        <ul>
+        {/* Componente Masonry que organiza as notas em colunas */}
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
           {filteredNotes.map((note) => (
-            <li
+            <div
               key={note.id}
               onClick={() => handleEditNote(note.id)}
               className="note"
             >
               <h3>{note.title}</h3>
               <p>{note.message}</p>
+              {/* Botões de restaurar e excluir, aparecem apenas na lixeira */}
               {shouldRenderRestoreButton(note) && (
-                <div>
+                <div className='trashCanButtons'>
                   <button
                     onClick={() => handleRestoreNote(note.id)}
                     className='restore'
@@ -238,9 +252,9 @@ const NoteApp = () => {
                   </button>
                 </div>
               )}
-            </li>
+            </div>
           ))}
-        </ul>
+        </Masonry>
       </div>
 
       {/* Modal para adicionar nova nota */}
@@ -315,6 +329,7 @@ const NoteApp = () => {
                 >
                   Salvar
                 </button>
+                {/* Botões de arquivar e excluir, aparecem apenas em notas ativas */}
                 {shouldRenderArchiveButton(modalData) && (
                   <button
                     type="button"
@@ -327,7 +342,6 @@ const NoteApp = () => {
                   <button
                     type="button"
                     onClick={handleDeleteNote}
-                    className="red"
                   >
                     Excluir
                   </button>
