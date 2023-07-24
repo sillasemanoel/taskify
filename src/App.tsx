@@ -270,13 +270,13 @@ export default function NoteApp() {
           columnClassName='my-masonry-grid_column'
         >
           {selectedCategory === 'note' && filteredNotes.length === 0 && (
-            <p>As notas adicionadas são exibidas aqui</p>
+            <p className='notice'>As notas adicionadas são exibidas aqui</p>
           )}
           {selectedCategory === 'archived' && filteredNotes.length === 0 && (
-            <p>Suas notas arquivadas são exibidas aqui</p>
+            <p className='notice'>Suas notas arquivadas são exibidas aqui</p>
           )}
           {selectedCategory === 'bin' && filteredNotes.length === 0 && (
-            <p>Nenhuma nota na lixeira</p>
+            <p className='notice'>Nenhuma nota na lixeira</p>
           )}
 
           {filteredNotes.map((note) => (
