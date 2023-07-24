@@ -1,249 +1,294 @@
-import { useState, useEffect } from 'react'
-import { AiOutlineClose, AiOutlineRollback, AiOutlineDelete } from 'react-icons/ai'
-import Masonry from 'react-masonry-css'
-import './App.css'
+import { useState, useEffect, useRef } from 'react';
+import { AiOutlineClose, AiOutlineRollback, AiOutlineDelete } from 'react-icons/ai';
+import { FiMenu } from 'react-icons/fi';
+import { FaRegStickyNote, FaRegFolderOpen, FaRegTrashAlt } from 'react-icons/fa';
+import Masonry from 'react-masonry-css';
+import './App.css';
+import icon from '../public/icon.png';
 
 interface Note {
-  id: number
-  title: string
-  message: string
-  status: 'note' | 'archived'
-  condition: 'active' | 'deleted'
+  id: number;
+  title: string;
+  message: string;
+  status: 'note' | 'archived';
+  condition: 'active' | 'deleted';
+  deletedDate?: string; // Data em que a nota foi enviada para a lixeira (formato JSON)
 }
 
 export default function NoteApp() {
-  // State para armazenar as notas, inicializado com as notas salvas no localStorage ou um array vazio.
+  const [toggle, setToggle] = useState(false);
   const [notes, setNotes] = useState<Note[]>(() => {
-    const savedNotes = localStorage.getItem('notes')
-    return savedNotes ? JSON.parse(savedNotes) : []
-  })
+    const savedNotes = localStorage.getItem('notes');
+    return savedNotes ? JSON.parse(savedNotes) : [];
+  });
 
-  // State para armazenar os dados do formulário para adicionar nova nota.
   const [formData, setFormData] = useState<Note>({
     id: 1,
     title: '',
     message: '',
     status: 'note',
     condition: 'active',
-  })
+  });
 
-  // State para armazenar os dados da nota selecionada para edição.
   const [modalData, setModalData] = useState<Note>({
     id: 0,
     title: '',
     message: '',
     status: 'note',
     condition: 'active',
-  })
+  });
 
-  // State para controlar a exibição do modal de adição de nova nota.
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditingModalOpen, setIsEditingModalOpen] = useState(false);
+  const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
+  const [selectedCategory, setSelectedCategory] = useState('note');
 
-  // State para controlar a exibição do modal de edição de nota.
-  const [isEditingModalOpen, setIsEditingModalOpen] = useState(false)
+  const newNoteInputRef = useRef<HTMLInputElement>(null);
+  const editNoteInputRef = useRef<HTMLInputElement>(null);
 
-  // State para armazenar o índice da nota sendo editada no array de notas.
-  const [editingNoteIndex, setEditingNoteIndex] = useState(-1)
+  function dateToJSONString(date: Date): string {
+    return date.toISOString();
+  }
 
-  // State para armazenar a categoria selecionada (note, archived ou bin).
-  const [selectedCategory, setSelectedCategory] = useState('note')
+  function jsonStringToDate(jsonString: string): Date {
+    return new Date(jsonString);
+  }
 
-  // Efeito colateral para salvar as notas no localStorage sempre que houver uma alteração no estado `notes`.
-  useEffect(() => {
-    localStorage.setItem('notes', JSON.stringify(notes))
-  }, [notes])
-
-  // Efeito colateral para atualizar o ID da próxima nota sempre que houver uma alteração no estado `notes`.
-  useEffect(() => {
-    setFormData({ ...formData, id: getNextId() })
-  }, [notes])
-
-  // Função para obter o próximo ID disponível para uma nova nota.
   const getNextId = () => {
-    return notes.length === 0 ? 1 : Math.max(...notes.map((note) => note.id)) + 1
-  }
+    return notes.length === 0 ? 1 : Math.max(...notes.map((note) => note.id)) + 1;
+  };
 
-  // Função para salvar uma nova nota no estado `notes`.
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
+
+  useEffect(() => {
+    setFormData({ ...formData, id: getNextId() });
+  }, [notes]);
+
   const handleSaveNote = () => {
-    const newNote = { ...formData }
-    setNotes([...notes, newNote])
-    setFormData({ ...formData, title: '', message: '' })
-    setIsModalOpen(false)
-  }
+    const newNote = { ...formData };
+    setNotes([...notes, newNote]);
+    setFormData({ ...formData, title: '', message: '' });
+    setIsModalOpen(false);
+  };
 
-  // Função para editar uma nota existente.
   const handleEditNote = (id: number) => {
-    const noteToEdit = notes.find((note) => note.id === id)
+    const noteToEdit = notes.find((note) => note.id === id);
     if (noteToEdit && noteToEdit.condition !== 'deleted') {
-      setModalData(noteToEdit)
-      setEditingNoteIndex(notes.indexOf(noteToEdit))
-      setIsEditingModalOpen(true)
+      setModalData(noteToEdit);
+      setEditingNoteIndex(notes.indexOf(noteToEdit));
+      setIsEditingModalOpen(true);
     }
-  }
+  };
 
-  // Função para salvar as alterações feitas em uma nota editada.
   const handleSaveEditedNote = () => {
-    const updatedNotes = [...notes]
-    updatedNotes[editingNoteIndex] = modalData
-    setNotes(updatedNotes)
-    setIsEditingModalOpen(false)
-  }
+    const updatedNotes = [...notes];
+    updatedNotes[editingNoteIndex] = modalData;
+    setNotes(updatedNotes);
+    setIsEditingModalOpen(false);
+  };
 
-  // Função para arquivar ou desarquivar uma nota.
   const handleArchiveNote = () => {
-    const updatedNotes = [...notes]
+    const updatedNotes = [...notes];
     updatedNotes[editingNoteIndex] = {
       ...modalData,
       status: modalData.status === 'note' ? 'archived' : 'note',
-    }
-    setModalData(updatedNotes[editingNoteIndex])
-    setNotes(updatedNotes)
-    setIsEditingModalOpen(false)
-  }
+    };
+    setModalData(updatedNotes[editingNoteIndex]);
+    setNotes(updatedNotes);
+    setIsEditingModalOpen(false);
+  };
 
-  // Função para enviar uma nota para a lixeira.
   const handleDeleteNote = () => {
-    const updatedNotes = [...notes]
+    const updatedNotes = [...notes];
+    const currentDate = new Date();
     updatedNotes[editingNoteIndex] = {
       ...modalData,
       condition: 'deleted',
-    }
-    setModalData(updatedNotes[editingNoteIndex])
-    setNotes(updatedNotes)
-    setIsEditingModalOpen(false)
-  }
+      deletedDate: dateToJSONString(currentDate),
+    };
+    setModalData(updatedNotes[editingNoteIndex]);
+    setNotes(updatedNotes);
+    setIsEditingModalOpen(false);
+  };
 
-  // Função para restaurar uma nota da lixeira.
+
+  const handleDeleteAllPermanently = () => {
+    const updatedNotes = notes.filter((note) => note.condition !== 'deleted');
+    setNotes(updatedNotes);
+    setIsEditingModalOpen(false);
+  };
+
   const handleRestoreNote = (id: number) => {
-    const noteToRestore = notes.find((note) => note.id === id)
+    const noteToRestore = notes.find((note) => note.id === id);
     if (noteToRestore) {
-      const updatedNotes = [...notes]
-      const noteIndex = notes.indexOf(noteToRestore)
+      const updatedNotes = [...notes];
+      const noteIndex = notes.indexOf(noteToRestore);
       updatedNotes[noteIndex] = {
         ...noteToRestore,
         condition: 'active',
+      };
+      setNotes(updatedNotes);
+
+      // Verificar se a nota está na lixeira há mais de 7 dias
+      if (isNoteOlderThan7Days(noteToRestore)) {
+        handleDeletePermanently(noteToRestore.id); // Excluir permanentemente se for o caso
       }
-      setNotes(updatedNotes)
     }
-  }
+  };
 
-  // Função para excluir permanentemente uma nota da lixeira.
   const handleDeletePermanently = (id: number) => {
-    const updatedNotes = notes.filter((note) => note.id !== id)
-    setNotes(updatedNotes)
-    setIsEditingModalOpen(false)
-  }
+    const updatedNotes = notes.filter((note) => note.id !== id);
+    setNotes(updatedNotes);
+    setIsEditingModalOpen(false);
+  };
 
-  // Função para fechar o modal de adição de nova nota ou edição de nota.
+  const isNoteOlderThan7Days = (note: Note) => {
+    if (note.condition === 'deleted' && note.deletedDate) {
+      const currentDate = new Date();
+      const deletedDate = jsonStringToDate(note.deletedDate);
+      const differenceInDays = (currentDate.getTime() - deletedDate.getTime()) / (1000 * 3600 * 24);
+      return differenceInDays >= 7;
+    }
+    return false;
+  };
+
   const handleCloseModal = () => {
-    setFormData({ ...formData, title: '', message: '' })
-    setIsModalOpen(false)
-    setIsEditingModalOpen(false)
-  }
+    setFormData({ ...formData, title: '', message: '' });
+    setIsModalOpen(false);
+    setIsEditingModalOpen(false);
+  };
 
-  // Função para alterar a categoria selecionada.
   const handleCategoryChange = (category: 'note' | 'archived' | 'bin') => {
-    setSelectedCategory(category)
-  }
+    setSelectedCategory(category);
+  };
 
-  // Função para determinar se o botão de arquivar deve ser renderizado para uma nota.
   const shouldRenderArchiveButton = (note: Note) => {
-    return selectedCategory !== 'bin' && note.condition === 'active'
-  }
+    return selectedCategory !== 'bin' && note.condition === 'active';
+  };
 
-  // Função para determinar se o botão de excluir deve ser renderizado para uma nota.
   const shouldRenderDeleteButton = (note: Note) => {
-    return note.condition === 'active'
-  }
+    return note.condition === 'active';
+  };
 
-  // Função para determinar se o botão de restaurar deve ser renderizado para uma nota na lixeira.
   const shouldRenderRestoreButton = (note: Note) => {
-    return selectedCategory === 'bin' && note.condition === 'deleted'
-  }
+    return selectedCategory === 'bin' && note.condition === 'deleted';
+  };
 
-  // Filtra as notas com base na categoria selecionada.
   const filteredNotes = notes.filter((note) => {
     if (selectedCategory === 'bin') {
-      return note.condition === 'deleted'
+      return note.condition === 'deleted';
     }
-    return note.status === selectedCategory && note.condition === 'active'
-  })
+    return note.status === selectedCategory && note.condition === 'active';
+  });
 
-  // Configuração das colunas para o layout Masonry
   const breakpointColumnsObj = {
-    default: 5,
-    1810: 4,
-    1450: 3,
-    1100: 2,
-    730: 1
-  }
+    default: 6,
+    1830: 5,
+    1575: 4,
+    1320: 3,
+    1080: 2,
+    820: 1,
+  };
+
+  useEffect(() => {
+    if (isModalOpen && newNoteInputRef.current) {
+      newNoteInputRef.current.focus();
+    }
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    if (isEditingModalOpen && editNoteInputRef.current) {
+      editNoteInputRef.current.focus();
+    }
+  }, [isEditingModalOpen]);
+
+  const renderDeleteWarning = () => {
+    if (selectedCategory === 'bin') {
+      const notesInBin = notes.filter((note) => note.condition === 'deleted');
+
+      if (notesInBin.length > 0) {
+        return (
+          <div className='deleteWarning'>
+            <p>As notas na lixeira são excluídas após sete dias.</p>
+            <span onClick={() => handleDeleteAllPermanently()}>Esvaziar lixeira</span>
+          </div>
+        );
+      }
+    }
+    return null;
+  };
 
   return (
-    <div>
-      <div className='navbar'>
+    <>
+      <div className='header'>
+        <div>
+          <div onClick={() => setToggle(!toggle)} className='menu'>
+            <FiMenu />
+          </div>
+          <div className='logo'>
+            <img src={icon} alt='Taskify Icon' />
+            <h1>Taskify</h1>
+          </div>
+        </div>
+      </div>
+
+      <div className={`${toggle ? 'nav openNav' : 'nav closedNav'}`}>
         <button
           onClick={() => handleCategoryChange('note')}
           className={selectedCategory === 'note' ? 'active' : ''}
         >
-          Notas
+          <FaRegStickyNote />
+          <h1>Notas</h1>
         </button>
         <button
           onClick={() => handleCategoryChange('archived')}
           className={selectedCategory === 'archived' ? 'active' : ''}
         >
-          Arquivadas
+          <FaRegFolderOpen />
+          <h1>Arquivo</h1>
         </button>
         <button
           onClick={() => handleCategoryChange('bin')}
           className={selectedCategory === 'bin' ? 'active' : ''}
         >
-          Lixeira
+          <FaRegTrashAlt />
+          <h1>Lixeira</h1>
         </button>
       </div>
 
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className='toAdd'
-      >
+      <button onClick={() => setIsModalOpen(true)} className='toAdd'>
         +
       </button>
 
-      <div className='grid'>
-        {selectedCategory === 'note' && filteredNotes.length === 0 && (
-          <p>As notas adicionadas são exibidas aqui</p>
-        )}
-        {selectedCategory === 'archived' && filteredNotes.length === 0 && (
-          <p>Suas notas arquivadas são exibidas aqui</p>
-        )}
-        {selectedCategory === 'bin' && filteredNotes.length === 0 && (
-          <p>Nenhuma nota na lixeira</p>
-        )}
+      <div className={`${toggle ? 'grid openGrid' : 'grid closedGrid'}`}>
+        {renderDeleteWarning()}
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className='my-masonry-grid'
           columnClassName='my-masonry-grid_column'
         >
+          {selectedCategory === 'note' && filteredNotes.length === 0 && (
+            <p>As notas adicionadas são exibidas aqui</p>
+          )}
+          {selectedCategory === 'archived' && filteredNotes.length === 0 && (
+            <p>Suas notas arquivadas são exibidas aqui</p>
+          )}
+          {selectedCategory === 'bin' && filteredNotes.length === 0 && (
+            <p>Nenhuma nota na lixeira</p>
+          )}
+
           {filteredNotes.map((note) => (
-            <div
-              key={note.id}
-              onClick={() => handleEditNote(note.id)}
-              className='note'
-            >
+            <div key={note.id} onClick={() => handleEditNote(note.id)} className='note'>
               <h3>{note.title}</h3>
               <p>{note.message}</p>
-              {/* Botões de restaurar e excluir, aparecem apenas na lixeira */}
               {shouldRenderRestoreButton(note) && (
-                <div className='trashCanButtons'>
-                  <button
-                    onClick={() => handleRestoreNote(note.id)}
-                    className='restore'
-                  >
+                <div>
+                  <button onClick={() => handleRestoreNote(note.id)}>
                     <AiOutlineRollback />
                   </button>
-                  <button
-                    onClick={() => handleDeletePermanently(note.id)}
-                    className='definitelyDelete'
-                  >
+                  <button onClick={() => handleDeletePermanently(note.id)}>
                     <AiOutlineDelete />
                   </button>
                 </div>
@@ -254,11 +299,11 @@ export default function NoteApp() {
       </div>
 
       {isModalOpen && (
-        <div className='modal-overlay'>
-          <div className='modal-content'>
-            <div className='modal-header'>
+        <div className='modalOverlay'>
+          <div className='modalContent'>
+            <div className='modalHeader'>
               <h2>Adicionar Nova Nota</h2>
-              <button onClick={handleCloseModal}>
+              <button onClick={handleCloseModal} className='closeModal'>
                 <AiOutlineClose />
               </button>
             </div>
@@ -269,6 +314,7 @@ export default function NoteApp() {
                   type='text'
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  ref={newNoteInputRef}
                 />
               </div>
               <div>
@@ -278,11 +324,8 @@ export default function NoteApp() {
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 />
               </div>
-              <div className='buttons'>
-                <button
-                  type='button'
-                  onClick={handleSaveNote}
-                >
+              <div className='modalActions'>
+                <button type='button' onClick={handleSaveNote}>
                   Salvar
                 </button>
               </div>
@@ -292,11 +335,11 @@ export default function NoteApp() {
       )}
 
       {isEditingModalOpen && (
-        <div className='modal-overlay'>
-          <div className='modal-content'>
-            <div className='modal-header'>
+        <div className='modalOverlay'>
+          <div className='modalContent'>
+            <div className='modalHeader'>
               <h2>Editar Nota</h2>
-              <button onClick={handleCloseModal}>
+              <button onClick={handleCloseModal} className='closeModal'>
                 <AiOutlineClose />
               </button>
             </div>
@@ -307,6 +350,7 @@ export default function NoteApp() {
                   type='text'
                   value={modalData.title}
                   onChange={(e) => setModalData({ ...modalData, title: e.target.value })}
+                  ref={editNoteInputRef}
                 />
               </div>
               <div>
@@ -316,27 +360,17 @@ export default function NoteApp() {
                   onChange={(e) => setModalData({ ...modalData, message: e.target.value })}
                 />
               </div>
-              <div className='buttons'>
-                <button
-                  type='button'
-                  onClick={handleSaveEditedNote}
-                >
+              <div className='modalActions'>
+                <button type='button' onClick={handleSaveEditedNote}>
                   Salvar
                 </button>
-                {/* Botões de arquivar e excluir, aparecem apenas em notas ativas */}
                 {shouldRenderArchiveButton(modalData) && (
-                  <button
-                    type='button'
-                    onClick={handleArchiveNote}
-                  >
+                  <button type='button' onClick={handleArchiveNote}>
                     {modalData.status === 'note' ? 'Arquivar' : 'Desarquivar'}
                   </button>
                 )}
                 {shouldRenderDeleteButton(modalData) && (
-                  <button
-                    type='button'
-                    onClick={handleDeleteNote}
-                  >
+                  <button type='button' onClick={handleDeleteNote}>
                     Excluir
                   </button>
                 )}
@@ -345,6 +379,6 @@ export default function NoteApp() {
           </div>
         </div>
       )}
-    </div>
-  )
+    </>
+  );
 }
