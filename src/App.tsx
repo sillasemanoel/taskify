@@ -5,7 +5,7 @@ import Grid from './components/grid';
 import AddNoteModal from './components/addNoteModal';
 import EditNoteModal from './components/editNoteModal';
 import AddNoteButton from './components/addNoteButton';
-import './app.css';
+import './App.css';
 
 // Interface para definir a estrutura de um objeto Nota
 interface Note {
