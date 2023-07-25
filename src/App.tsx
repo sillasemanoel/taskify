@@ -46,26 +46,32 @@ export default function NoteApp() {
   const newNoteInputRef = useRef<HTMLInputElement>(null);
   const editNoteInputRef = useRef<HTMLInputElement>(null);
 
-  function dateToJSONString(date: Date): string {
+  // Função para transformar data em formato JSON para string
+  const dateToJSONString = (date: Date): string => {
     return date.toISOString();
-  }
+  };
 
-  function jsonStringToDate(jsonString: string): Date {
+  // Função para transformar string em formato JSON para data
+  const jsonStringToDate = (jsonString: string): Date => {
     return new Date(jsonString);
-  }
+  };
 
+  // Função para obter o próximo ID disponível para uma nova nota
   const getNextId = () => {
     return notes.length === 0 ? 1 : Math.max(...notes.map((note) => note.id)) + 1;
   };
 
+  // Salvar as notas no localStorage sempre que a lista de notas for atualizada
   useEffect(() => {
     localStorage.setItem('notes', JSON.stringify(notes));
   }, [notes]);
 
+  // Atualizar o ID da nova nota sempre que a lista de notas for atualizada
   useEffect(() => {
     setFormData({ ...formData, id: getNextId() });
   }, [notes]);
 
+  // Função para salvar uma nova nota
   const handleSaveNote = () => {
     const newNote = { ...formData };
     setNotes([...notes, newNote]);
@@ -73,6 +79,7 @@ export default function NoteApp() {
     setIsModalOpen(false);
   };
 
+  // Função para editar uma nota existente
   const handleEditNote = (id: number) => {
     const noteToEdit = notes.find((note) => note.id === id);
     if (noteToEdit && noteToEdit.condition !== 'deleted') {
@@ -82,6 +89,7 @@ export default function NoteApp() {
     }
   };
 
+  // Função para salvar a nota editada
   const handleSaveEditedNote = () => {
     const updatedNotes = [...notes];
     updatedNotes[editingNoteIndex] = modalData;
@@ -89,6 +97,7 @@ export default function NoteApp() {
     setIsEditingModalOpen(false);
   };
 
+  // Função para arquivar/desarquivar uma nota
   const handleArchiveNote = () => {
     const updatedNotes = [...notes];
     updatedNotes[editingNoteIndex] = {
@@ -100,6 +109,7 @@ export default function NoteApp() {
     setIsEditingModalOpen(false);
   };
 
+  // Função para enviar uma nota para a lixeira
   const handleDeleteNote = () => {
     const updatedNotes = [...notes];
     const currentDate = new Date();
@@ -113,13 +123,14 @@ export default function NoteApp() {
     setIsEditingModalOpen(false);
   };
 
-
+  // Função para esvaziar permanentemente a lixeira
   const handleDeleteAllPermanently = () => {
     const updatedNotes = notes.filter((note) => note.condition !== 'deleted');
     setNotes(updatedNotes);
     setIsEditingModalOpen(false);
   };
 
+  // Função para restaurar uma nota da lixeira
   const handleRestoreNote = (id: number) => {
     const noteToRestore = notes.find((note) => note.id === id);
     if (noteToRestore) {
@@ -138,12 +149,14 @@ export default function NoteApp() {
     }
   };
 
+  // Função para excluir permanentemente uma nota
   const handleDeletePermanently = (id: number) => {
     const updatedNotes = notes.filter((note) => note.id !== id);
     setNotes(updatedNotes);
     setIsEditingModalOpen(false);
   };
 
+  // Verificar se uma nota está na lixeira há mais de 7 dias
   const isNoteOlderThan7Days = (note: Note) => {
     if (note.condition === 'deleted' && note.deletedDate) {
       const currentDate = new Date();
@@ -154,28 +167,40 @@ export default function NoteApp() {
     return false;
   };
 
+  // Fechar o modal de adição/edição de nota
   const handleCloseModal = () => {
     setFormData({ ...formData, title: '', message: '' });
     setIsModalOpen(false);
     setIsEditingModalOpen(false);
   };
 
+  // Alterar a categoria selecionada (Notas, Arquivo ou Lixeira)
   const handleCategoryChange = (category: 'note' | 'archived' | 'bin') => {
     setSelectedCategory(category);
+
+    // Verificar se a classe 'nav' tem a classe 'openNav' antes de chamar setToggle(!toggle)
+    const navElement = document.querySelector('.nav');
+    if (navElement && navElement.classList.contains('openNav')) {
+      setToggle(!toggle);
+    }
   };
 
+  // Verificar se deve renderizar o botão de arquivar/desarquivar nota
   const shouldRenderArchiveButton = (note: Note) => {
     return selectedCategory !== 'bin' && note.condition === 'active';
   };
 
+  // Verificar se deve renderizar o botão de excluir nota
   const shouldRenderDeleteButton = (note: Note) => {
     return note.condition === 'active';
   };
 
+  // Verificar se deve renderizar o botão de restaurar nota (na lixeira)
   const shouldRenderRestoreButton = (note: Note) => {
     return selectedCategory === 'bin' && note.condition === 'deleted';
   };
 
+  // Filtrar as notas de acordo com a categoria selecionada
   const filteredNotes = notes.filter((note) => {
     if (selectedCategory === 'bin') {
       return note.condition === 'deleted';
@@ -183,6 +208,7 @@ export default function NoteApp() {
     return note.status === selectedCategory && note.condition === 'active';
   });
 
+  // Configuração das colunas responsivas para o layout Masonry
   const breakpointColumnsObj = {
     default: 6,
     1830: 5,
@@ -192,18 +218,21 @@ export default function NoteApp() {
     820: 1,
   };
 
+  // Focar no campo de adição de nota quando o modal é aberto
   useEffect(() => {
     if (isModalOpen && newNoteInputRef.current) {
       newNoteInputRef.current.focus();
     }
   }, [isModalOpen]);
 
+  // Focar no campo de edição de nota quando o modal é aberto
   useEffect(() => {
     if (isEditingModalOpen && editNoteInputRef.current) {
       editNoteInputRef.current.focus();
     }
   }, [isEditingModalOpen]);
 
+  // Renderizar a mensagem de aviso de exclusão permanente na lixeira
   const renderDeleteWarning = () => {
     if (selectedCategory === 'bin') {
       const notesInBin = notes.filter((note) => note.condition === 'deleted');
@@ -223,14 +252,12 @@ export default function NoteApp() {
   return (
     <>
       <div className='header'>
-        <div>
-          <div onClick={() => setToggle(!toggle)} className='menu'>
-            <FiMenu />
-          </div>
-          <div className='logo'>
-            <img src={icon} alt='Taskify Icon' />
-            <h1>Taskify</h1>
-          </div>
+        <div onClick={() => setToggle(!toggle)} className='menu'>
+          <FiMenu />
+        </div>
+        <div className='logo'>
+          <img src={icon} alt='Taskify Icon' />
+          <h1>Taskify</h1>
         </div>
       </div>
 
@@ -263,22 +290,21 @@ export default function NoteApp() {
       </button>
 
       <div className={`${toggle ? 'grid openGrid' : 'grid closedGrid'}`}>
+        {selectedCategory === 'note' && filteredNotes.length === 0 && (
+          <p className='notice'>As notas adicionadas são exibidas aqui</p>
+        )}
+        {selectedCategory === 'archived' && filteredNotes.length === 0 && (
+          <p className='notice'>Suas notas arquivadas são exibidas aqui</p>
+        )}
+        {selectedCategory === 'bin' && filteredNotes.length === 0 && (
+          <p className='notice'>Nenhuma nota na lixeira</p>
+        )}
         {renderDeleteWarning()}
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className='my-masonry-grid'
           columnClassName='my-masonry-grid_column'
         >
-          {selectedCategory === 'note' && filteredNotes.length === 0 && (
-            <p className='notice'>As notas adicionadas são exibidas aqui</p>
-          )}
-          {selectedCategory === 'archived' && filteredNotes.length === 0 && (
-            <p className='notice'>Suas notas arquivadas são exibidas aqui</p>
-          )}
-          {selectedCategory === 'bin' && filteredNotes.length === 0 && (
-            <p className='notice'>Nenhuma nota na lixeira</p>
-          )}
-
           {filteredNotes.map((note) => (
             <div key={note.id} onClick={() => handleEditNote(note.id)} className='note'>
               <h3>{note.title}</h3>

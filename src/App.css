@@ -12,11 +12,6 @@
   user-select: none;
 }
 
-.header div {
-  display: flex;
-  align-items: center;
-}
-
 .menu {
   display: flex;
   align-items: center;
@@ -31,9 +26,20 @@
   background-color: #f4f4f4;
 }
 
+@media (max-width: 600px) {
+  .menu:hover {
+    background-color: transparent;
+  }
+}
+
 .menu svg {
   font-size: 21px;
   color: #202124;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
 }
 
 .logo img {
@@ -182,7 +188,7 @@
   }
 
   .nav button:hover {
-    background-color: #f4f4f4;
+    background-color: transparent;
   }
 
   .nav button svg {
@@ -215,6 +221,7 @@
   cursor: pointer;
   z-index: 2;
   user-select: none;
+  outline: 0 !important;
 }
 
 .grid {
@@ -230,6 +237,18 @@
   padding-right: 20px;
   width: 100%;
   min-height: 100vh;
+}
+
+.notice {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #202124;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
 }
 
 .deleteWarning {
@@ -329,10 +348,6 @@
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   font-family: 'Poppins', sans-serif;
-}
-
-.notice {
-  position: absolute;
 }
 
 .note div {
