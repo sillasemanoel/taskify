@@ -141,7 +141,11 @@ export default function NoteApp() {
         ...noteToRestore,
         condition: 'active',
       };
+      delete updatedNotes[noteIndex].deletedDate; // Remover a propriedade deletedDate
       setNotes(updatedNotes);
+
+      // Remover a propriedade deletedDate do localStorage ao restaurar a nota
+      localStorage.setItem('notes', JSON.stringify(updatedNotes));
 
       // Verificar se a nota está na lixeira há mais de 7 dias
       if (isNoteOlderThan7Days(noteToRestore)) {
