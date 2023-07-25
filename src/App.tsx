@@ -6,6 +6,7 @@ import Masonry from 'react-masonry-css';
 import './App.css';
 import icon from '../public/icon.png';
 
+// Interface para definir a estrutura de um objeto Nota
 interface Note {
   id: number;
   title: string;
@@ -15,43 +16,43 @@ interface Note {
   deletedDate?: string; // Data em que a nota foi enviada para a lixeira (formato JSON)
 }
 
+// O componente principal para o NoteApp
 export default function NoteApp() {
-  const [toggle, setToggle] = useState(false);
+  // Variáveis de estado para gerenciar diferentes aspectos do aplicativo
+  const [toggle, setToggle] = useState(false); // Para gerenciar a exibição do menu de navegação lateral
   const [notes, setNotes] = useState<Note[]>(() => {
     const savedNotes = localStorage.getItem('notes');
     return savedNotes ? JSON.parse(savedNotes) : [];
-  });
-
+  }); // Para armazenar o array de notas
   const [formData, setFormData] = useState<Note>({
     id: 1,
     title: '',
     message: '',
     status: 'note',
     condition: 'active',
-  });
-
+  }); // Para armazenar os dados do formulário para adicionar uma nova nota
   const [modalData, setModalData] = useState<Note>({
     id: 0,
     title: '',
     message: '',
     status: 'note',
     condition: 'active',
-  });
+  }); // Para armazenar os dados da nota sendo editada no modal
+  const [isModalOpen, setIsModalOpen] = useState(false); // Para gerenciar a visibilidade do modal de adicionar nota
+  const [isEditingModalOpen, setIsEditingModalOpen] = useState(false); // Para gerenciar a visibilidade do modal de editar nota
+  const [editingNoteIndex, setEditingNoteIndex] = useState(-1); // Para armazenar o índice da nota sendo editada
+  const [selectedCategory, setSelectedCategory] = useState('note'); // Para armazenar a categoria selecionada (Nota, Arquivada ou Lixeira)
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditingModalOpen, setIsEditingModalOpen] = useState(false);
-  const [editingNoteIndex, setEditingNoteIndex] = useState(-1);
-  const [selectedCategory, setSelectedCategory] = useState('note');
-
+  // Refs para focar nos campos de input nos modals
   const newNoteInputRef = useRef<HTMLInputElement>(null);
   const editNoteInputRef = useRef<HTMLInputElement>(null);
 
-  // Função para transformar data em formato JSON para string
+  // Função para converter uma data em formato JSON para string
   const dateToJSONString = (date: Date): string => {
     return date.toISOString();
   };
 
-  // Função para transformar string em formato JSON para data
+  // Função para converter uma string em formato JSON para data
   const jsonStringToDate = (jsonString: string): Date => {
     return new Date(jsonString);
   };
@@ -68,7 +69,7 @@ export default function NoteApp() {
 
   // Atualizar o ID da nova nota sempre que a lista de notas for atualizada
   useEffect(() => {
-    setFormData({ ...formData, id: getNextId() });
+    setFormData((prevFormData) => ({ ...prevFormData, id: getNextId() }));
   }, [notes]);
 
   // Função para salvar uma nova nota
