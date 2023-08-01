@@ -1,5 +1,9 @@
+// Dependencies
 import { FiMenu } from 'react-icons/fi';
-import icon from '../../public/icon.png';
+// Styles
+import { HeaderStyle } from './style'
+// Images
+import icon from '../../../public/icon.png';
 
 type HeaderProps = {
   toggle: boolean;
@@ -8,7 +12,7 @@ type HeaderProps = {
 
 export default function Header(props: HeaderProps) {
   return (
-    <div className='header'>
+    <HeaderStyle>
       <div onClick={() => props.setToggle(!props.toggle)} className='menu'>
         <FiMenu />
       </div>
@@ -16,6 +20,6 @@ export default function Header(props: HeaderProps) {
         <img src={icon} alt='Taskify Icon' />
         <h1>Taskify</h1>
       </div>
-    </div>
+    </HeaderStyle>
   );
 }

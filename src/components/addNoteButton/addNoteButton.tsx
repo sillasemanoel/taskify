@@ -1,11 +1,14 @@
+// Styles
+import { AddNoteButtonStyle } from './style'
+
 type AddNoteButtonProps = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function AddNoteButton(props: AddNoteButtonProps) {
   return (
-    <button onClick={() => props.setIsModalOpen(true)} className='toAdd'>
+    <AddNoteButtonStyle onClick={() => props.setIsModalOpen(true)}>
       +
-    </button>
+    </AddNoteButtonStyle>
   );
 }

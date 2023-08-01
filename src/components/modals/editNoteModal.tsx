@@ -1,4 +1,7 @@
+// Dependencies
 import { AiOutlineClose } from 'react-icons/ai';
+// Styles
+import { ModalStyle } from './style'
 
 type EditNoteModalProps = {
   isEditingModalOpen: boolean;
@@ -24,7 +27,7 @@ type Note = {
 
 export default function EditNoteModal(props: EditNoteModalProps) {
   return (
-    <>
+    <ModalStyle>
       {props.isEditingModalOpen && (
         <div className='modalOverlay'>
           <div className='modalContent'>
@@ -70,6 +73,6 @@ export default function EditNoteModal(props: EditNoteModalProps) {
           </div>
         </div>
       )}
-    </>
+    </ModalStyle>
   );
 }

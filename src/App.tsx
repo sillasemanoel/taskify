@@ -1,11 +1,12 @@
+// Dependencies
 import { useState, useEffect, useRef } from 'react';
-import Header from './components/header';
-import Nav from './components/nav';
-import Grid from './components/grid';
-import AddNoteModal from './components/addNoteModal';
-import EditNoteModal from './components/editNoteModal';
-import AddNoteButton from './components/addNoteButton';
-import './App.css';
+// Components
+import Header from './components/header/header';
+import Nav from './components/nav/nav';
+import Grid from './components/grid/grid';
+import AddNoteModal from './components/modals/addNoteModal';
+import EditNoteModal from './components/modals/editNoteModal';
+import AddNoteButton from './components/addNoteButton/addNoteButton';
 
 // Interface para definir a estrutura de um objeto Nota
 interface Note {
