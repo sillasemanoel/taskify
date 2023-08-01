@@ -1,29 +1,29 @@
 // Dependencies
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai'
 // Styles
 import { ModalStyle } from './style'
 
 type EditNoteModalProps = {
-  isEditingModalOpen: boolean;
-  modalData: Note;
-  setModalData: React.Dispatch<React.SetStateAction<Note>>;
-  editNoteInputRef: React.RefObject<HTMLInputElement>;
-  handleCloseModal: () => void;
-  handleSaveEditedNote: () => void;
-  handleArchiveNote: () => void;
-  handleDeleteNote: () => void;
-  shouldRenderArchiveButton: (note: Note) => boolean;
-  shouldRenderDeleteButton: (note: Note) => boolean;
-};
+  isEditingModalOpen: boolean
+  modalData: Note
+  setModalData: React.Dispatch<React.SetStateAction<Note>>
+  editNoteInputRef: React.RefObject<HTMLInputElement>
+  handleCloseModal: () => void
+  handleSaveEditedNote: () => void
+  handleArchiveNote: () => void
+  handleDeleteNote: () => void
+  shouldRenderArchiveButton: (note: Note) => boolean
+  shouldRenderDeleteButton: (note: Note) => boolean
+}
 
 type Note = {
-  id: number;
-  title: string;
-  message: string;
-  status: 'note' | 'archived';
-  condition: 'active' | 'deleted';
-  deletedDate?: string;
-};
+  id: number
+  title: string
+  message: string
+  status: 'note' | 'archived'
+  condition: 'active' | 'deleted'
+  deletedDate?: string
+}
 
 export default function EditNoteModal(props: EditNoteModalProps) {
   return (
@@ -74,5 +74,5 @@ export default function EditNoteModal(props: EditNoteModalProps) {
         </div>
       )}
     </ModalStyle>
-  );
+  )
 }

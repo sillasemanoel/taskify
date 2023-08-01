@@ -1,13 +1,13 @@
 // Dependencies
-import { FaRegStickyNote, FaRegFolderOpen, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegStickyNote, FaRegFolderOpen, FaRegTrashAlt } from 'react-icons/fa'
 // Styles
 import { NavStyle } from './style'
 
 type NavProps = {
-  toggle: boolean;
-  selectedCategory: string;
-  handleCategoryChange: (category: 'note' | 'archived' | 'bin') => void;
-};
+  toggle: boolean
+  selectedCategory: string
+  handleCategoryChange: (category: 'note' | 'archived' | 'bin') => void
+}
 
 export default function Nav(props: NavProps) {
   return (
@@ -36,5 +36,5 @@ export default function Nav(props: NavProps) {
         </button>
       </div>
     </NavStyle>
-  );
+  )
 }

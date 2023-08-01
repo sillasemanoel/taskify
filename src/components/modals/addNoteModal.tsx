@@ -1,25 +1,25 @@
 // Dependencies
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai'
 // Styles
 import { ModalStyle } from './style'
 
 type AddNoteModalProps = {
-  isModalOpen: boolean;
-  formData: Note;
-  setFormData: React.Dispatch<React.SetStateAction<Note>>;
-  newNoteInputRef: React.RefObject<HTMLInputElement>;
-  handleSaveNote: () => void;
-  handleCloseModal: () => void;
-};
+  isModalOpen: boolean
+  formData: Note
+  setFormData: React.Dispatch<React.SetStateAction<Note>>
+  newNoteInputRef: React.RefObject<HTMLInputElement>
+  handleSaveNote: () => void
+  handleCloseModal: () => void
+}
 
 type Note = {
-  id: number;
-  title: string;
-  message: string;
-  status: 'note' | 'archived';
-  condition: 'active' | 'deleted';
-  deletedDate?: string;
-};
+  id: number
+  title: string
+  message: string
+  status: 'note' | 'archived'
+  condition: 'active' | 'deleted'
+  deletedDate?: string
+}
 
 export default function AddNoteModal(props: AddNoteModalProps) {
   return (
@@ -60,5 +60,5 @@ export default function AddNoteModal(props: AddNoteModalProps) {
         </div>
       )}
     </ModalStyle>
-  );
+  )
 }

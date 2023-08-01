@@ -1,29 +1,32 @@
 // Dependencies
-import Masonry from 'react-masonry-css';
-import { AiOutlineRollback, AiOutlineDelete } from 'react-icons/ai';
+import Masonry from 'react-masonry-css'
+import { AiOutlineRollback, AiOutlineDelete } from 'react-icons/ai'
 // Styles
 import { GridStyle } from './style'
 
 type GridProps = {
-  toggle: boolean;
-  selectedCategory: string;
-  filteredNotes: Note[];
-  breakpointColumnsObj: { default: number;[key: number]: number };
-  renderDeleteWarning: () => JSX.Element | null;
-  handleEditNote: (id: number) => void;
-  shouldRenderRestoreButton: (note: Note) => boolean;
-  handleRestoreNote: (id: number) => void;
-  handleDeletePermanently: (id: number) => void;
-};
+  toggle: boolean
+  selectedCategory: string
+  filteredNotes: Note[]
+  breakpointColumnsObj: {
+    default: number
+    [key: number]: number
+  }
+  renderDeleteWarning: () => JSX.Element | null
+  handleEditNote: (id: number) => void
+  shouldRenderRestoreButton: (note: Note) => boolean
+  handleRestoreNote: (id: number) => void
+  handleDeletePermanently: (id: number) => void
+}
 
 type Note = {
-  id: number;
-  title: string;
-  message: string;
-  status: 'note' | 'archived';
-  condition: 'active' | 'deleted';
-  deletedDate?: string;
-};
+  id: number
+  title: string
+  message: string
+  status: 'note' | 'archived'
+  condition: 'active' | 'deleted'
+  deletedDate?: string
+}
 
 export default function Grid(props: GridProps) {
   return (
@@ -63,5 +66,5 @@ export default function Grid(props: GridProps) {
         </Masonry>
       </div>
     </GridStyle>
-  );
+  )
 }
