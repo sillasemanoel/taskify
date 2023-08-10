@@ -225,24 +225,44 @@ export default function NoteApp() {
     820: 1,
   }
 
+  // Função para verificar e excluir notas permanentemente se forem mais antigas do que 7 dias
+  const checkAndDeleteOldNotes = () => {
+    const updatedNotes = notes.filter((note) => {
+      if (isNoteOlderThan7Days(note)) {
+        handleDeletePermanently(note.id);
+        return false; // Filter out this note from the updated array
+      }
+      return true; // Keep this note in the updated array
+    });
+
+    // Update state and localStorage
+    setNotes(updatedNotes);
+    localStorage.setItem('notes', JSON.stringify(updatedNotes));
+  };
+
+  // Executar a verificação de notas antigas quando o componente for montado
+  useEffect(() => {
+    checkAndDeleteOldNotes();
+  }, []);
+
   // Focar no campo de adição de nota quando o modal é aberto
   useEffect(() => {
     if (isModalOpen && newNoteInputRef.current) {
-      newNoteInputRef.current.focus()
+      newNoteInputRef.current.focus();
     }
-  }, [isModalOpen])
+  }, [isModalOpen]);
 
   // Focar no campo de edição de nota quando o modal é aberto
   useEffect(() => {
     if (isEditingModalOpen && editNoteInputRef.current) {
-      editNoteInputRef.current.focus()
+      editNoteInputRef.current.focus();
     }
-  }, [isEditingModalOpen])
+  }, [isEditingModalOpen]);
 
   // Renderizar a mensagem de aviso de exclusão permanente na lixeira
   const renderDeleteWarning = () => {
     if (selectedCategory === 'bin') {
-      const notesInBin = notes.filter((note) => note.condition === 'deleted')
+      const notesInBin = notes.filter((note) => note.condition === 'deleted');
 
       if (notesInBin.length > 0) {
         return (
@@ -250,10 +270,10 @@ export default function NoteApp() {
             <p>As notas na lixeira são excluídas após sete dias.</p>
             <span onClick={() => handleDeleteAllPermanently()}>Esvaziar lixeira</span>
           </div>
-        )
+        );
       }
     }
-    return null
+    return null;
   }
 
   return (
