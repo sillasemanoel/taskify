@@ -1,20 +1,14 @@
-# Taskify - Sistema de Anotações Simples e Intuitivo
-
-O Taskify é um sistema de anotações simples e intuitivo, projetado para ajudar os usuários a criar, arquivar e excluir notas de forma rápida e fácil. Com foco na praticidade, o Taskify permite que você registre e gerencie suas anotações de maneira eficiente, garantindo uma organização eficaz das informações importantes. É a ferramenta ideal para lembrar tarefas e manter-se organizado de maneira descomplicada.
+<h1 align="center"> Taskify </h1>
 
 ![Taskify Demo](./.github/prototype.png)
 
-## Recursos
+O Taskify é um sistema de anotações simples e intuitivo, projetado para ajudar os usuários a criar, arquivar e excluir notas de forma rápida e fácil. Com foco na praticidade, o Taskify permite que você registre e gerencie suas anotações de maneira eficiente, garantindo uma organização eficaz das informações importantes. É a ferramenta ideal para lembrar tarefas e manter-se organizado de maneira descomplicada.
 
-- **Interface Intuitiva:** O Taskify oferece uma interface amigável e intuitiva, tornando a criação e gerenciamento de anotações uma tarefa fácil para todos os usuários.
+## Tecnologias
 
-- **Criar e Excluir Notas:** Com apenas alguns cliques, você pode criar novas notas e também excluí-las quando não forem mais necessárias.
-
-- **Arquivar Anotações:** Mantenha suas anotações organizadas arquivando as que não são mais relevantes, mas que você deseja manter para referência futura.
-
-- **Armazenamento Local:** O Taskify utiliza o armazenamento local (localStorage) para guardar as suas anotações diretamente no navegador, garantindo que suas informações permaneçam disponíveis mesmo após fechar a página.
-
-- **Tecnologias Utilizadas:** O projeto foi desenvolvido usando a biblioteca React para a criação da interface e o Styled Components para garantir uma estilização mais fácil e consistente.
+- React
+- Styled-Components
+- LocalStorage
 
 ## Como Utilizar
 
