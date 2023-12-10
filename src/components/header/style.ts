@@ -1,5 +1,5 @@
 // dependencies
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const HeaderStyle = styled.section`
   position: fixed;
@@ -25,7 +25,7 @@ export const HeaderStyle = styled.section`
   }
 
   .menu:hover {
-    background-color: #f4f4f4;
+    background-color: #f1f1f1;
   }
 
   @media (max-width: 600px) {
@@ -56,6 +56,6 @@ export const HeaderStyle = styled.section`
     color: #202124;
     margin-left: 5px;
     font-weight: 500;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
   }
-`
+`;

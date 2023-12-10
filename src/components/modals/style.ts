@@ -1,5 +1,5 @@
 // dependencies
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const ModalStyle = styled.section`
   .modalOverlay {
@@ -39,7 +39,7 @@ export const ModalStyle = styled.section`
   }
 
   .modalHeader h2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     user-select: none;
   }
 
@@ -57,24 +57,37 @@ export const ModalStyle = styled.section`
   }
 
   .modalContent form div label {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     user-select: none;
   }
 
   .modalActions {
     width: 100%;
     display: flex;
+    gap: 10px;
     justify-content: center;
     user-select: none;
   }
 
   .modalActions button {
-    margin: 10px;
+    width: 100%;
     padding: 10px;
-    border: none;
-    background-color: #fbbc05;
+    margin-top: 10px;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 6px;
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    font-weight: 500;
     color: #202124;
-    font-size: 20px;
+    background: rgb(255, 255, 255);
+    outline: none;
     cursor: pointer;
   }
-`
+
+  .modalActions button:hover {
+    padding: 11px;
+    background: #6160fa;
+    border: 0;
+    color: #fff;
+  }
+`;

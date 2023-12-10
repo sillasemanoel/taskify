@@ -1,5 +1,5 @@
 // dependencies
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const GridStyle = styled.section`
   .grid {
@@ -7,7 +7,7 @@ export const GridStyle = styled.section`
     flex-direction: column;
     text-align: center;
     justify-content: start;
-    transition: all .02s ease-in-out;
+    transition: all 0.02s ease-in-out;
     height: calc(100% - 64px);
     box-sizing: border-box;
     padding-top: 74px;
@@ -26,7 +26,7 @@ export const GridStyle = styled.section`
     font-size: 14px;
     color: #202124;
     font-weight: 500;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
   }
 
   .deleteWarning {
@@ -37,7 +37,7 @@ export const GridStyle = styled.section`
     font-size: 14px;
     color: #202124;
     font-weight: 500;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
   }
 
   @media (max-width: 800px) {
@@ -52,7 +52,7 @@ export const GridStyle = styled.section`
   }
 
   .deleteWarning span {
-    color: #1a73e8;
+    color: #6160fa;
     cursor: pointer;
   }
 
@@ -83,10 +83,11 @@ export const GridStyle = styled.section`
     width: 255px !important;
   }
 
-  .my-masonry-grid_column>div {
+  .my-masonry-grid_column > div {
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+      rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     padding: 10px 20px;
     margin: 10px;
     cursor: pointer;
@@ -99,7 +100,7 @@ export const GridStyle = styled.section`
     align-items: center;
     justify-content: center;
     height: 100vh;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: #202124;
     font-weight: 500;
@@ -109,12 +110,12 @@ export const GridStyle = styled.section`
   .note h3 {
     display: block;
     text-align: start;
-    font-size: 18px;
+    font-size: 22px;
     margin-bottom: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
   }
 
   .note p {
@@ -125,23 +126,22 @@ export const GridStyle = styled.section`
     -webkit-line-clamp: 15;
     -webkit-box-orient: vertical;
     word-wrap: break-word;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
   }
 
   .note div {
     display: flex;
+    gap: 10px;
     justify-content: center;
   }
 
   .note div button {
-    margin: 10px;
+    padding: 15px;
     border: none;
     color: #202124;
     cursor: pointer;
     background-color: transparent;
     border-radius: 100%;
-    width: 40px !important;
-    height: 40px !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -152,10 +152,10 @@ export const GridStyle = styled.section`
   }
 
   .note div button:hover {
-    background-color: #f4f4f4;
+    background-color: #f1f1f1;
   }
 
   .note div button svg {
     font-size: 18px;
   }
-`
+`;

@@ -1,5 +1,5 @@
 // dependencies
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const AddNoteButtonStyle = styled.button`
   position: fixed;
@@ -7,15 +7,13 @@ export const AddNoteButtonStyle = styled.button`
   right: 30px;
   margin: 10px;
   padding: 10px 20px;
-  background-color: #fbbc05;
-  color: #202124;
+  background-color: #6160fa;
+  color: #fff;
   border: none;
   border-radius: 100%;
-  width: 60px;
-  height: 60px;
   font-size: 35px;
   cursor: pointer;
   z-index: 2;
   user-select: none;
   outline: 0 !important;
-`
+`;

@@ -1,5 +1,5 @@
 // dependencies
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const NavStyle = styled.section`
   .nav {
@@ -16,7 +16,7 @@ export const NavStyle = styled.section`
     z-index: 3;
     border-right: 1px solid #eaeaea;
     user-select: none;
-    transition: all .02s ease-in-out;
+    transition: all 0.02s ease-in-out;
   }
 
   .closedNav {
@@ -62,15 +62,15 @@ export const NavStyle = styled.section`
   }
 
   .nav button.active {
-    background-color: #feefc3;
+    background-color: #f1f1f1;
   }
 
   .nav button.active:hover {
-    background-color: #feefc3;
+    background-color: #f1f1f1;
   }
 
   .nav button:hover {
-    background-color: #f4f4f4;
+    background-color: #f1f1f1;
   }
 
   .nav button svg {
@@ -84,7 +84,7 @@ export const NavStyle = styled.section`
   .openNav button h1 {
     margin-left: 33px;
     display: flex;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: #202124;
     font-weight: 500;
@@ -92,7 +92,7 @@ export const NavStyle = styled.section`
 
   @media (max-width: 600px) {
     .nav {
-      transition: all .3s ease-in-out;
+      transition: all 0.3s ease-in-out;
     }
 
     .closedNav {
@@ -125,11 +125,11 @@ export const NavStyle = styled.section`
     }
 
     .nav button.active {
-      background-color: #feefc3;
+      background-color: #f1f1f1;
     }
 
     .nav button.active:hover {
-      background-color: #feefc3;
+      background-color: #f1f1f1;
     }
 
     .nav button:hover {
@@ -143,10 +143,10 @@ export const NavStyle = styled.section`
     .nav button h1 {
       margin-left: 33px;
       display: flex;
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
       font-size: 14px;
       color: #202124;
       font-weight: 500;
     }
   }
-`
+`;
