@@ -1,4 +1,4 @@
-<h1 align="center"> Taskify (pronto) </h1>
+<h1 align="center"> Taskify (ready) </h1>
 
 <h3>Home</h3>
 <img src="github/home.png" width="100% " height="auto" alt="zé delivery logo" />
